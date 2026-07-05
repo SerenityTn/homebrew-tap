@@ -1,8 +1,8 @@
 class VpsImgPaste < Formula
   desc "Menu-bar app to send Mac clipboard images (or a screenshot) to a host over SSH"
   homepage "https://github.com/SerenityTn/vps-img-paste"
-  url "https://github.com/SerenityTn/vps-img-paste/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "255d7d640c0a7447f6472379abc339138a0d07b4a006ae901820dd730907b4e5"
+  url "https://github.com/SerenityTn/vps-img-paste/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "aae823b838ee1c7731266e1ad88c391accbe83cc5b26a4bef3c406359a78eb99"
   license "MIT"
 
   depends_on :macos

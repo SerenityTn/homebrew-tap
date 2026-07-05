@@ -5,8 +5,8 @@ class VpsImgPaste < Formula
   sha256 "255d7d640c0a7447f6472379abc339138a0d07b4a006ae901820dd730907b4e5"
   license "MIT"
 
-  depends_on "pngpaste"
   depends_on :macos
+  depends_on "pngpaste"
 
   def install
     app = prefix/"VpsImgPaste.app"

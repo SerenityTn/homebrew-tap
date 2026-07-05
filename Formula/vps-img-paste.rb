@@ -39,6 +39,18 @@ class VpsImgPaste < Formula
     pkgshare.install "vps-img-paste.env.example"
   end
 
+  def post_install
+    # Surface the menu-bar app in Finder → Applications via a version-stable symlink.
+    link = "/Applications/VpsImgPaste.app"
+    target = opt_prefix/"VpsImgPaste.app"
+    begin
+      File.delete(link) if File.symlink?(link)
+      File.symlink(target, link) unless File.exist?(link)
+    rescue
+      # /Applications not writable (non-admin) — link manually, see caveats.
+    end
+  end
+
   service do
     run [opt_prefix/"VpsImgPaste.app/Contents/MacOS/VpsImgPaste"]
     keep_alive false
@@ -58,6 +70,11 @@ class VpsImgPaste < Formula
 
       The screenshot fallback needs Screen Recording permission:
         System Settings > Privacy & Security > Screen Recording > VPS Image Paste
+
+      The app is a menu-bar app (no Dock icon). It's symlinked into
+      /Applications for Finder visibility; if that folder wasn't writable, link
+      it manually:
+        ln -s #{opt_prefix}/VpsImgPaste.app /Applications/VpsImgPaste.app
     EOS
   end
 

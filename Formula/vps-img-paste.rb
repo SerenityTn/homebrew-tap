@@ -40,12 +40,22 @@ class VpsImgPaste < Formula
   end
 
   def post_install
+    app = opt_prefix/"VpsImgPaste.app"
+
+    # If a local self-signed identity named "vps-img-paste-signing" exists, sign
+    # with it so macOS Screen Recording permission survives upgrades. (Ad-hoc
+    # signatures change every build, which makes macOS re-prompt each time.)
+    identity = "vps-img-paste-signing"
+    if `/usr/bin/security find-identity -p codesigning 2>/dev/null`.include?(identity)
+      system "/usr/bin/codesign", "--force", "--sign", identity,
+             "--identifier", "com.khaireddine.vpsimgpaste", app.to_s
+    end
+
     # Surface the menu-bar app in Finder → Applications via a version-stable symlink.
     link = "/Applications/VpsImgPaste.app"
-    target = opt_prefix/"VpsImgPaste.app"
     begin
       File.delete(link) if File.symlink?(link)
-      File.symlink(target, link) unless File.exist?(link)
+      File.symlink(app, link) unless File.exist?(link)
     rescue
       # /Applications not writable (non-admin) — link manually, see caveats.
     end
